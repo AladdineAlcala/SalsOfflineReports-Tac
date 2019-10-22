@@ -1,0 +1,4 @@
+﻿1>------ Build started: Project: SalsOfflineReports, Configuration: Debug Any CPU ------
+1>C:\Program Files (x86)\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(3506,5): warning MSB3187: Referenced assembly 'C:\Windows\assembly\GAC_64\log4net\1.2.10.0__692fbea5521e1304\log4net.dll' targets a different processor than the application.
+1>  SalsOfflineReports -> E:\SalsProject\SalsOfflineReports\SalsOfflineReports\bin\Debug\SalsOfflineReports.exe
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
