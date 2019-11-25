@@ -14,7 +14,7 @@ namespace SalsOfflineReports.Class
         {
             decimal totalpayables = 0;
             decimal packageDue = 0;
-            decimal addonAmount = 0;
+            //decimal addonAmount = 0;
             decimal locationextAmount = 0;
             decimal packageAmount = 0;
             //decimal belowminPax = 0;
@@ -36,17 +36,18 @@ namespace SalsOfflineReports.Class
 
                     packageDue = totalheads * packageAmount;
 
-                    addonAmount = this.GetAddons(transId);
+                    //addonAmount = this.GetAddons(transId);
 
-                    locationextAmount = (this.Get_extendedAmountLoc(transId) * totalheads);
+                    //locationextAmount = (this.Get_extendedAmountLoc(transId) * totalheads);
 
                     //belowminPax = this.GetBelowMinPaxAmount(totalheads) * Convert.ToInt32(totalheads);
-
-                    cateringdiscount = this.GetCateringDiscount(transId);
-
-                    totalpayables = packageDue + addonAmount + locationextAmount - cateringdiscount;
-
                     discounted = this.Get_bookingDiscountbyTrans(transId, totalpayables);
+
+                    //cateringdiscount = this.GetCateringDiscount(transId);
+
+                    totalpayables = packageDue ;
+
+                 
 
                         
                 }

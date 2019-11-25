@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5a91bc095cab4ec1bbf01b7a1d4323bf" Name="Diagram1">
+        <EntityTypeShape EntityType="PegasusTacModel.AddonCategory" Width="1.5" PointX="3.75" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.AddonDetail" Width="1.5" PointX="6" PointY="28.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Area" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.AuditLogDetail" Width="1.5" PointX="8" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.AuditLog" Width="1.5" PointX="5.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Book_Discount" Width="1.5" PointX="5.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Book_Menus" Width="1.5" PointX="8.25" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.BookingAddon" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Booking" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.CancelledBooking" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.CateringDiscount" Width="1.5" PointX="8.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.CourseCategory" Width="1.5" PointX="3.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Customer" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Department" Width="1.5" PointX="3.75" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Discount" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Menu" Width="1.5" PointX="6" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.PackageAreaCoverage" Width="1.5" PointX="6" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.PackageBody" Width="1.5" PointX="3" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Package" Width="1.5" PointX="0.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Packages_No_Pax_applicable" Width="1.5" PointX="7.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Payment" Width="1.5" PointX="5.25" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.RefundEntry" Width="1.5" PointX="7.5" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Refund" Width="1.5" PointX="5.25" PointY="23.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Reservation" Width="1.5" PointX="3" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.Role" Width="1.5" PointX="9.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.ServiceType" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PegasusTacModel.PackagesRangeBelowMin" Width="1.5" PointX="10.75" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="PegasusTacModel.FK_AddonDetails_AddonCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_AddonDetails_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_PackageAreaCoverage_Areas" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_AuditLogDetails_AuditLogs" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Book_Discount_Bookings" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Book_Discount_Discount" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Book_Menus_Bookings" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Book_Menus_Menu" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_BookingAddons_Bookings" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Bookings_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Bookings_Packages" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Bookings_ServiceType" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Payments_Bookings" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Refunds_Bookings" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Menu_CourseCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Reservations_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_Menu_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_PackageAreaCoverage_Packages" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_PackageBody_Packages" ManuallyRouted="false" />
+        <AssociationConnector Association="PegasusTacModel.FK_RefundEntry_Refunds" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

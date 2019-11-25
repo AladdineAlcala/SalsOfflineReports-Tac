@@ -34,6 +34,7 @@ namespace SalsOfflineReports
         public virtual DbSet<Book_Menus> Book_Menus { get; set; }
         public virtual DbSet<BookingAddon> BookingAddons { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<CancelledBooking> CancelledBookings { get; set; }
         public virtual DbSet<CateringDiscount> CateringDiscounts { get; set; }
         public virtual DbSet<CourseCategory> CourseCategories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
@@ -45,7 +46,10 @@ namespace SalsOfflineReports
         public virtual DbSet<Package> Packages { get; set; }
         public virtual DbSet<Packages_No_Pax_applicable> Packages_No_Pax_applicable { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<RefundEntry> RefundEntries { get; set; }
+        public virtual DbSet<Refund> Refunds { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<ServiceType> ServiceTypes { get; set; }
         public virtual DbSet<PackagesRangeBelowMin> PackagesRangeBelowMins { get; set; }
     }

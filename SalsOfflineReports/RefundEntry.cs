@@ -12,16 +12,13 @@ namespace SalsOfflineReports
     using System;
     using System.Collections.Generic;
     
-    public partial class AddonDetail
+    public partial class RefundEntry
     {
-        public int addonId { get; set; }
-        public Nullable<int> addoncatId { get; set; }
-        public Nullable<int> deptId { get; set; }
-        public string addondescription { get; set; }
-        public string unit { get; set; }
-        public Nullable<decimal> amount { get; set; }
+        public long No { get; set; }
+        public Nullable<long> Rf_id { get; set; }
+        public string Particular { get; set; }
+        public Nullable<decimal> Amount { get; set; }
     
-        public virtual AddonCategory AddonCategory { get; set; }
-        public virtual Department Department { get; set; }
+        public virtual Refund Refund { get; set; }
     }
 }

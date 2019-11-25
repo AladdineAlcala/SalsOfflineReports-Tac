@@ -21,27 +21,29 @@ namespace SalsOfflineReports
             this.Book_Menus = new HashSet<Book_Menus>();
             this.BookingAddons = new HashSet<BookingAddon>();
             this.Payments = new HashSet<Payment>();
+            this.Refunds = new HashSet<Refund>();
         }
     
         public int trn_Id { get; set; }
         public Nullable<System.DateTime> transdate { get; set; }
+        public string booktype { get; set; }
         public Nullable<int> c_Id { get; set; }
         public Nullable<int> noofperson { get; set; }
         public string occasion { get; set; }
         public string venue { get; set; }
-        public Nullable<bool> apply_extendedAmount { get; set; }
         public Nullable<int> typeofservice { get; set; }
         public Nullable<System.DateTime> startdate { get; set; }
         public Nullable<System.DateTime> enddate { get; set; }
         public string eventcolor { get; set; }
         public Nullable<int> p_id { get; set; }
         public string reference { get; set; }
+        public Nullable<int> extendedAreaId { get; set; }
+        public Nullable<bool> apply_extendedAmount { get; set; }
         public Nullable<decimal> p_amount { get; set; }
         public Nullable<bool> serve_stat { get; set; }
         public Nullable<bool> is_cancelled { get; set; }
         public string b_createdbyUser { get; set; }
         public System.DateTime b_updatedDate { get; set; }
-        public Nullable<int> extendedAreaId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Book_Discount> Book_Discount { get; set; }
@@ -54,5 +56,7 @@ namespace SalsOfflineReports
         public virtual ServiceType ServiceType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payment> Payments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Refund> Refunds { get; set; }
     }
 }

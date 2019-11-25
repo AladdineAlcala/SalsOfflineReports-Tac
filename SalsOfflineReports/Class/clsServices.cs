@@ -71,20 +71,26 @@ namespace SalsOfflineReports.Class
         {
             string btype = string.Empty;
 
-            var package = (from b in dbEntities.Bookings
-                join p in dbEntities.Packages on b.p_id equals p.p_id
-                where b.trn_Id == transId
-                select new {booktype = p.p_type}).FirstOrDefault();
+            var booking = (from b in dbEntities.Bookings where b.trn_Id == transId select b).FirstOrDefault();
 
-            if (package.booktype.Trim() == "vip")
+
+            if (booking.booktype != null)
             {
-                btype = "Inside";
+                if (booking.booktype.Trim() == "ins")
+                {
+                    btype = "Inside";
+
+                }
+                else
+                {
+                    btype = "Outside";
+                }
             }
             else
             {
-                btype = "Outside";
+                btype = "";
             }
-
+          
             return btype;
 
         }

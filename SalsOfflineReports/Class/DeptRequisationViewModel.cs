@@ -31,6 +31,16 @@ namespace SalsOfflineReports.Class
 
                 }).ToList();
 
+            list.AddRange(from ba in dbentities.BookingAddons join ad in dbentities.AddonDetails on ba.addonId equals ad.addonId
+                join d in dbentities.Departments on ad.deptId equals d.deptId
+                where ba.trn_Id == transId
+                select new DeptRequisationViewModel()
+                {
+                    TransId = (int)ba.trn_Id,
+                    DeptId = (int)ad.deptId,
+                    Deptname = d.deptName
+
+                });
 
             return list.GroupBy(dept=>new {dept.DeptId,dept.Deptname,dept.TransId}).Select(d=>d.First()).ToList();
         }

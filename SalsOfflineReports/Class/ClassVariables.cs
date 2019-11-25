@@ -10,5 +10,6 @@ namespace SalsOfflineReports.Class
     {
         public static int TransactionCode;
         public static int Paymentcode;
+        public static int RefundEntryNo;
     }
 }

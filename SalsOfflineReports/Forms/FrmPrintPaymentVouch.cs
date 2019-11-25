@@ -31,6 +31,8 @@ namespace SalsOfflineReports.Forms
             var paymNo = ClassVariables.Paymentcode;
 
             List<PrintContractDetails> conDetails = new List<PrintContractDetails>();
+            //PrintContractDetails conDetails=new PrintContractDetails();
+
             List<clsPayables> payablelist=new List<clsPayables>();
             try
             {
@@ -64,10 +66,11 @@ namespace SalsOfflineReports.Forms
                     tbloginfo.ConnectionInfo.IntegratedSecurity = true;
                     cryTable.ApplyLogOnInfo(tbloginfo);
                 }
+                int noofPax = 0;
 
-                conDetails = (from c in condetails.GetContractDetails() select c).ToList();
+                var conDetailsList = (from c in condetails.GetContractDetails() select c).ToList();
 
-                conDetails = conDetails.Where(x => x.transId == Convert.ToInt32(transId)).ToList();
+                conDetails = conDetailsList.Where(x => x.transId == transId).ToList();
 
                 payablelist = (from pmt in cpayables.getPayment().ToList() select pmt).ToList();
 
@@ -76,7 +79,22 @@ namespace SalsOfflineReports.Forms
                 var paydate = payablelist.FirstOrDefault(x => x.payNo == paymNo).dateofpayment;
 
                 decimal totalPackageAmountDue = rcvDetails.getTotalPackageAmount(Convert.ToInt32(transId));
+
+                decimal addons = rcvDetails.GetAddons(transId);
+                decimal locextcharge = 0;
+
+               
+                if (conDetails != null)
+                {
+                    noofPax = conDetails[conDetails.Count - 1].noofPax;
+                    locextcharge = rcvDetails.Get_extendedAmountLoc(transId) * noofPax;
+                }
+
+                decimal catering_discount = rcvDetails.GetCateringDiscount(Convert.ToInt32(transId));
+
+
                 decimal totalPayment = rcvDetails.GetTotalPayments(Convert.ToInt32(transId));
+
                 var discount = rcvDetails.Get_bookingDiscountbyTrans(transId, totalPackageAmountDue);
 
 
@@ -85,6 +103,9 @@ namespace SalsOfflineReports.Forms
 
                 cryrep.SetParameterValue("pmtNo", paymNo);
                 cryrep.SetParameterValue("paymdate", paydate);
+                cryrep.SetParameterValue("addons", addons);
+                cryrep.SetParameterValue("extlocation", locextcharge);
+                cryrep.SetParameterValue("catdesc", catering_discount);
                 cryrep.SetParameterValue("PrevPayment", totalPayment);
                 cryrep.SetParameterValue("totalPackageAmt", totalPackageAmountDue);
                 cryrep.SetParameterValue("Discounted", discount);

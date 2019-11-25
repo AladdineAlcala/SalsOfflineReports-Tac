@@ -12,21 +12,25 @@ namespace SalsOfflineReports
     using System;
     using System.Collections.Generic;
     
-    public partial class Department
+    public partial class Refund
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Department()
+        public Refund()
         {
-            this.AddonDetails = new HashSet<AddonDetail>();
-            this.Menus = new HashSet<Menu>();
+            this.RefundEntries = new HashSet<RefundEntry>();
         }
     
-        public int deptId { get; set; }
-        public string deptName { get; set; }
+        public long Rf_id { get; set; }
+        public Nullable<System.DateTime> rfDate { get; set; }
+        public Nullable<int> trn_Id { get; set; }
+        public string rf_Reason { get; set; }
+        public Nullable<decimal> rf_Amount { get; set; }
+        public Nullable<decimal> rfDeduction { get; set; }
+        public Nullable<decimal> rfNetAmount { get; set; }
+        public Nullable<int> rf_Stat { get; set; }
     
+        public virtual Booking Booking { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AddonDetail> AddonDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Menu> Menus { get; set; }
+        public virtual ICollection<RefundEntry> RefundEntries { get; set; }
     }
 }

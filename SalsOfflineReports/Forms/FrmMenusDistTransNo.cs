@@ -21,6 +21,8 @@ namespace SalsOfflineReports.Forms
         private readonly DeptRequisationViewModel _deptreq = new DeptRequisationViewModel();
         private readonly BookingDetailsViewModel _book = new BookingDetailsViewModel();
         private readonly BookMenusViewModel bookMenus = new BookMenusViewModel();
+        private readonly AddonsViewModel addonsMenus=new AddonsViewModel();
+
         public FrmMenusDistTransNo()
         {
             InitializeComponent();
@@ -59,12 +61,14 @@ namespace SalsOfflineReports.Forms
 
                     try
                     {
+                        int bookrow = 0;
+
                         //get bookking details
                         var bookingDetails = _book.GetBookingDetails(trNo);
 
                         if (bookingDetails != null)
                         {
-                            DateTime eventTime = DateTime.Today.Add(bookingDetails.EventTime);
+                            DateTime eventTime = DateTime.Today.Add(bookingDetails.EventDate.TimeOfDay);
                             var displaytime = eventTime.ToString("hh:mm tt");
 
                             Excel.Style style = exlWorkBook.Styles.Add("inputstyle");
@@ -75,14 +79,15 @@ namespace SalsOfflineReports.Forms
 
                             int row = 1;
                             int j = 0;
-                            int bookrow = 0;
+                          
+
 
                             var deptRequisationViewModels = listofdept as IList<DeptRequisationViewModel> ?? listofdept.ToList();
                             //int rowcount = deptRequisationViewModels.Count() / 2;
 
                             //rowline = rowcount % 2 == 0 ? rowcount : rowcount + 1;
                             int columnjump = 0;
-                            bookrow = 22;
+                            bookrow = 21;
 
                             for (int i = 0; i < deptRequisationViewModels.Count(); i++)
                             {
@@ -92,7 +97,7 @@ namespace SalsOfflineReports.Forms
                                 if (i == 2)
                                 {
                                     row = 25;
-                                    bookrow = bookrow + 28;
+                                    bookrow = bookrow + 27;
                                 }
 
                                 else if (i == 4)
@@ -100,7 +105,7 @@ namespace SalsOfflineReports.Forms
 
                                     row = 1;
                                     columnjump = 12;
-                                    bookrow = 22;
+                                    bookrow = 21;
                                 }
                                 else if (i == 6)
                                 {
@@ -115,13 +120,16 @@ namespace SalsOfflineReports.Forms
                                 {
                                     col = columnjump + 1;
                                     j = 0;
+                                
+
+                                   
                                 }
                                 else
                                 {
                                     col = columnjump + 7;
                                     j = 0;
                                 }
-
+                          
                                 //Department
                                 exlWorkSheet.Range[exlWorkSheet.Cells[row, col], exlWorkSheet.Cells[row, col + 1]].Merge();
                                 exlWorkSheet.Range[exlWorkSheet.Cells[row, col], exlWorkSheet.Cells[row, col + 1]].Font.Bold = true;
@@ -133,6 +141,7 @@ namespace SalsOfflineReports.Forms
                                 exlWorkSheet.Range[exlWorkSheet.Cells[row, col + 2], exlWorkSheet.Cells[row, col + 4]].Merge();
                                 exlWorkSheet.Cells[row, col + 2] = deptRequisationViewModels.ElementAt(i).Deptname;
 
+                                //var dept= deptRequisationViewModels.ElementAt(i).Deptname;
 
                                 //Event Date
                                 j = j + 1;
@@ -196,7 +205,7 @@ namespace SalsOfflineReports.Forms
                                 exlWorkSheet.Cells[row + j, col + 2] = bookingDetails.EventVenue;
 
 
-                                //Menus======================================================================================================================
+                                //======================= Menus ========================================================================
 
                                 j = j + 2;
                                 exlWorkSheet.Range[exlWorkSheet.Cells[row + j, col], exlWorkSheet.Cells[row + j, col + 4]].Merge();
@@ -208,13 +217,15 @@ namespace SalsOfflineReports.Forms
 
                                 int ele = i;
 
-                                var menulist = bookMenus.GetBookMenus(trNo)
+                                var menus = bookMenus.GetBookMenus(trNo)
                                     .Where(m => m.deptid == deptRequisationViewModels.ElementAt(ele).DeptId);
+
+
 
                                 int menurow = row + j + 1;
                                 int menucount = 1;
 
-                                foreach (var menu in menulist)//===============List all Menus========================================================================
+                                foreach (var menu in menus)//===============List all Menus========================================================================
                                 {
 
                                     exlWorkSheet.Range[exlWorkSheet.Cells[menurow + menucount, col], exlWorkSheet.Cells[menurow + menucount, col]].Style = "inputstyle";
@@ -234,28 +245,60 @@ namespace SalsOfflineReports.Forms
                                 }
                                 //====================================================================================================================================
 
+                                var addons = addonsMenus.BookAddonsList().Where(m => m.deptId == deptRequisationViewModels.ElementAt(ele).DeptId && m.TransId==trNo);
+
+                                //add-ons list
+                                foreach (var addon in addons)
+                                {
+                                    exlWorkSheet.Range[exlWorkSheet.Cells[menurow + menucount, col], exlWorkSheet.Cells[menurow + menucount, col]].Style = "inputstyle";
+                                    exlWorkSheet.Range[exlWorkSheet.Cells[menurow + menucount, col], exlWorkSheet.Cells[menurow + menucount, col]].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                                    exlWorkSheet.Range[exlWorkSheet.Cells[menurow + menucount, col], exlWorkSheet.Cells[menurow + menucount, col]].Font.Bold = true;
+                                    exlWorkSheet.Range[exlWorkSheet.Cells[menurow + menucount, col], exlWorkSheet.Cells[menurow + menucount, col]].Font.Size = 12;
+                                    exlWorkSheet.Cells[menurow + menucount, col] = $"{menucount}.";
 
 
-                                //Book No
+                                    exlWorkSheet.Range[exlWorkSheet.Cells[menurow + menucount, col + 1], exlWorkSheet.Cells[menurow + menucount, col + 3]].Style = "inputstyle";
+                                    exlWorkSheet.Range[exlWorkSheet.Cells[menurow + menucount, col + 1], exlWorkSheet.Cells[menurow + menucount, col + 3]].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+                                    exlWorkSheet.Range[exlWorkSheet.Cells[menurow + menucount, col + 1], exlWorkSheet.Cells[menurow + menucount, col + 3]].Font.Size = 12;
+                                    exlWorkSheet.Cells[menurow + menucount, col + 1] = addon.AddonsDescription;
+                                }
 
+                                //Customer
                                 exlWorkSheet.Range[exlWorkSheet.Cells[bookrow, col], exlWorkSheet.Cells[bookrow, col + 1]].Merge();
                                 exlWorkSheet.Range[exlWorkSheet.Cells[bookrow, col], exlWorkSheet.Cells[bookrow, col + 1]].Font.Bold = true;
                                 exlWorkSheet.Range[exlWorkSheet.Cells[bookrow, col], exlWorkSheet.Cells[bookrow, col + 1]].Font.Size = 13;
-                                exlWorkSheet.Cells[bookrow, col] = "Book No:";
+                                exlWorkSheet.Cells[bookrow, col] = "Customer:";
 
 
                                 exlWorkSheet.Range[exlWorkSheet.Cells[bookrow, col + 2], exlWorkSheet.Cells[bookrow, col + 4]].Style = "inputstyle";
                                 exlWorkSheet.Range[exlWorkSheet.Cells[bookrow, col + 2], exlWorkSheet.Cells[bookrow, col + 4]].Font.Size = 13;
-                                //exlWorkSheet.Range[exlWorkSheet.Cells[bookrow, col + 2], exlWorkSheet.Cells[bookrow, col + 4]].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                                exlWorkSheet.Range[exlWorkSheet.Cells[bookrow, col + 2], exlWorkSheet.Cells[bookrow, col + 4]].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
                                 exlWorkSheet.Range[exlWorkSheet.Cells[bookrow, col + 2], exlWorkSheet.Cells[bookrow, col + 4]].Merge();
                                 exlWorkSheet.Range[exlWorkSheet.Cells[bookrow, col + 2], exlWorkSheet.Cells[bookrow, col + 4]].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
-                                exlWorkSheet.Cells[bookrow, col + 2] = bookingDetails.TransId;
+                                exlWorkSheet.Cells[bookrow, col + 2] = bookingDetails.CustomerName;
 
 
-                                if (bookrow == 22)
+                                //Book No
+                                exlWorkSheet.Range[exlWorkSheet.Cells[bookrow+1, col], exlWorkSheet.Cells[bookrow+1, col + 1]].Merge();
+                                exlWorkSheet.Range[exlWorkSheet.Cells[bookrow+1, col], exlWorkSheet.Cells[bookrow+1, col + 1]].Font.Bold = true;
+                                exlWorkSheet.Range[exlWorkSheet.Cells[bookrow+1, col], exlWorkSheet.Cells[bookrow+1, col + 1]].Font.Size = 13;
+                                exlWorkSheet.Cells[bookrow+1, col] = "Book No:";
+
+
+                                exlWorkSheet.Range[exlWorkSheet.Cells[bookrow+1, col + 2], exlWorkSheet.Cells[bookrow+1, col + 4]].Style = "inputstyle";
+                                exlWorkSheet.Range[exlWorkSheet.Cells[bookrow+1, col + 2], exlWorkSheet.Cells[bookrow+1, col + 4]].Font.Size = 13;
+                                exlWorkSheet.Range[exlWorkSheet.Cells[bookrow+1, col + 2], exlWorkSheet.Cells[bookrow+1, col + 4]].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                                exlWorkSheet.Range[exlWorkSheet.Cells[bookrow+1, col + 2], exlWorkSheet.Cells[bookrow+1, col + 4]].Merge();
+                                exlWorkSheet.Range[exlWorkSheet.Cells[bookrow+1, col + 2], exlWorkSheet.Cells[bookrow+1, col + 4]].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+                                exlWorkSheet.Cells[bookrow+1, col + 2] = bookingDetails.TransId;
+
+                                //bookrow = 23;
+
+                                if (bookrow == 21)
                                 {
+                                    int seprow = bookrow + 2;
                                     //line separator
-                                    exlWorkSheet.Range[exlWorkSheet.Cells[bookrow + 1, col], exlWorkSheet.Cells[bookrow + 1, col + 5]].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDashDot;
+                                    exlWorkSheet.Range[exlWorkSheet.Cells[seprow, col], exlWorkSheet.Cells[seprow, col + 4]].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDashDot;
 
                                 }
 

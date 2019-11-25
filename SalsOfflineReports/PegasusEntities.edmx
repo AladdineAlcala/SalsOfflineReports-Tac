@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="PegasusTacModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="PegasusTacModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AddonCategory">
           <Key>
             <PropertyRef Name="addoncatId" />
@@ -18,6 +18,7 @@
           </Key>
           <Property Name="addonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="addoncatId" Type="int" />
+          <Property Name="deptId" Type="int" />
           <Property Name="addondescription" Type="nvarchar" MaxLength="50" />
           <Property Name="unit" Type="nvarchar" MaxLength="25" />
           <Property Name="amount" Type="decimal" Precision="18" Scale="2" />
@@ -86,6 +87,7 @@
           </Key>
           <Property Name="trn_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="transdate" Type="datetime" />
+          <Property Name="booktype" Type="nchar" MaxLength="10" />
           <Property Name="c_Id" Type="int" />
           <Property Name="noofperson" Type="int" />
           <Property Name="occasion" Type="nvarchar" MaxLength="50" />
@@ -103,6 +105,16 @@
           <Property Name="is_cancelled" Type="bit" />
           <Property Name="b_createdbyUser" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="b_updatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CancelledBookings">
+          <Key>
+            <PropertyRef Name="cNo" />
+          </Key>
+          <Property Name="cNo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cancelledDated" Type="datetime" />
+          <Property Name="trn_Id" Type="int" />
+          <Property Name="reasoncancelled" Type="nvarchar(max)" />
+          <Property Name="isrefundable" Type="bit" />
         </EntityType>
         <EntityType Name="CateringDiscounts">
           <Key>
@@ -228,6 +240,28 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <Property Name="checkNo" Type="nvarchar" MaxLength="50" />
           <Property Name="notes" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="RefundEntry">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rf_id" Type="bigint" />
+          <Property Name="Particular" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Refunds">
+          <Key>
+            <PropertyRef Name="Rf_id" />
+          </Key>
+          <Property Name="Rf_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rfDate" Type="datetime" />
+          <Property Name="trn_Id" Type="int" />
+          <Property Name="rf_Reason" Type="nvarchar(max)" />
+          <Property Name="rf_Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="rfDeduction" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="rfNetAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="rf_Stat" Type="int" />
+        </EntityType>
         <EntityType Name="Reservations">
           <Key>
             <PropertyRef Name="resId" />
@@ -240,6 +274,13 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <Property Name="reserveStat" Type="bit" Nullable="false" />
           <Property Name="eventVenue" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="ServiceType">
           <Key>
             <PropertyRef Name="serviceId" />
@@ -248,7 +289,9 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <Property Name="servicetypedetails" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <Association Name="FK_AddonDetails_AddonCategory">
-          <End Role="AddonCategory" Type="Self.AddonCategory" Multiplicity="0..1" />
+          <End Role="AddonCategory" Type="Self.AddonCategory" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="AddonDetails" Type="Self.AddonDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AddonCategory">
@@ -256,6 +299,20 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
             </Principal>
             <Dependent Role="AddonDetails">
               <PropertyRef Name="addoncatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddonDetails_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AddonDetails" Type="Self.AddonDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptId" />
+            </Principal>
+            <Dependent Role="AddonDetails">
+              <PropertyRef Name="deptId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -451,6 +508,32 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RefundEntry_Refunds">
+          <End Role="Refunds" Type="Self.Refunds" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RefundEntry" Type="Self.RefundEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Refunds">
+              <PropertyRef Name="Rf_id" />
+            </Principal>
+            <Dependent Role="RefundEntry">
+              <PropertyRef Name="Rf_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Refunds_Bookings">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="0..1" />
+          <End Role="Refunds" Type="Self.Refunds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="Refunds">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Reservations_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
@@ -473,6 +556,7 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <EntitySet Name="Book_Menus" EntityType="Self.Book_Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookingAddons" EntityType="Self.BookingAddons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CancelledBookings" EntityType="Self.CancelledBookings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CateringDiscounts" EntityType="Self.CateringDiscounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseCategory" EntityType="Self.CourseCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -484,7 +568,10 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <EntitySet Name="Packages" EntityType="Self.Packages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Packages_No_Pax_applicable" EntityType="Self.Packages_No_Pax_applicable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RefundEntry" EntityType="Self.RefundEntry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Refunds" EntityType="Self.Refunds" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackagesRangeBelowMin" EntityType="Self.PackagesRangeBelowMin" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -496,6 +583,10 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           </EntitySet>
           <AssociationSet Name="FK_AddonDetails_AddonCategory" Association="Self.FK_AddonDetails_AddonCategory">
             <End Role="AddonCategory" EntitySet="AddonCategory" />
+            <End Role="AddonDetails" EntitySet="AddonDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddonDetails_Department" Association="Self.FK_AddonDetails_Department">
+            <End Role="Department" EntitySet="Department" />
             <End Role="AddonDetails" EntitySet="AddonDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_AuditLogDetails_AuditLogs" Association="Self.FK_AuditLogDetails_AuditLogs">
@@ -558,12 +649,21 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
             <End Role="Bookings" EntitySet="Bookings" />
             <End Role="Payments" EntitySet="Payments" />
           </AssociationSet>
+          <AssociationSet Name="FK_RefundEntry_Refunds" Association="Self.FK_RefundEntry_Refunds">
+            <End Role="Refunds" EntitySet="Refunds" />
+            <End Role="RefundEntry" EntitySet="RefundEntry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Refunds_Bookings" Association="Self.FK_Refunds_Bookings">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="Refunds" EntitySet="Refunds" />
+          </AssociationSet>
           <AssociationSet Name="FK_Reservations_Customer" Association="Self.FK_Reservations_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Reservations" EntitySet="Reservations" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PegasusTacModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -581,10 +681,12 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           </Key>
           <Property Name="addonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="addoncatId" Type="Int32" />
+          <Property Name="deptId" Type="Int32" />
           <Property Name="addondescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="unit" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="amount" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="AddonCategory" Relationship="Self.FK_AddonDetails_AddonCategory" FromRole="AddonDetails" ToRole="AddonCategory" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_AddonDetails_Department" FromRole="AddonDetails" ToRole="Department" />
         </EntityType>
         <EntityType Name="Area">
           <Key>
@@ -658,22 +760,24 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           </Key>
           <Property Name="trn_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="transdate" Type="DateTime" Precision="3" />
+          <Property Name="booktype" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="c_Id" Type="Int32" />
           <Property Name="noofperson" Type="Int32" />
           <Property Name="occasion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="venue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="apply_extendedAmount" Type="Boolean" />
           <Property Name="typeofservice" Type="Int32" />
           <Property Name="startdate" Type="DateTime" Precision="3" />
           <Property Name="enddate" Type="DateTime" Precision="3" />
           <Property Name="eventcolor" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="p_id" Type="Int32" />
           <Property Name="reference" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="extendedAreaId" Type="Int32" />
+          <Property Name="apply_extendedAmount" Type="Boolean" />
           <Property Name="p_amount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="serve_stat" Type="Boolean" />
           <Property Name="is_cancelled" Type="Boolean" />
           <Property Name="b_createdbyUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="b_updatedDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="b_updatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Book_Discount" Relationship="Self.FK_Book_Discount_Bookings" FromRole="Bookings" ToRole="Book_Discount" />
           <NavigationProperty Name="Book_Menus" Relationship="Self.FK_Book_Menus_Bookings" FromRole="Bookings" ToRole="Book_Menus" />
           <NavigationProperty Name="BookingAddons" Relationship="Self.FK_BookingAddons_Bookings" FromRole="Bookings" ToRole="BookingAddons" />
@@ -681,7 +785,17 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <NavigationProperty Name="Package" Relationship="Self.FK_Bookings_Packages" FromRole="Bookings" ToRole="Packages" />
           <NavigationProperty Name="ServiceType" Relationship="Self.FK_Bookings_ServiceType" FromRole="Bookings" ToRole="ServiceType" />
           <NavigationProperty Name="Payments" Relationship="Self.FK_Payments_Bookings" FromRole="Bookings" ToRole="Payments" />
-          <Property Name="extendedAreaId" Type="Int32" />
+          <NavigationProperty Name="Refunds" Relationship="Self.FK_Refunds_Bookings" FromRole="Bookings" ToRole="Refunds" />
+        </EntityType>
+        <EntityType Name="CancelledBooking">
+          <Key>
+            <PropertyRef Name="cNo" />
+          </Key>
+          <Property Name="cNo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cancelledDated" Type="DateTime" Precision="3" />
+          <Property Name="trn_Id" Type="Int32" />
+          <Property Name="reasoncancelled" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isrefundable" Type="Boolean" />
         </EntityType>
         <EntityType Name="CateringDiscount">
           <Key>
@@ -724,6 +838,7 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           </Key>
           <Property Name="deptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="deptName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AddonDetails" Relationship="Self.FK_AddonDetails_Department" FromRole="Department" ToRole="AddonDetails" />
           <NavigationProperty Name="Menus" Relationship="Self.FK_Menu_Department" FromRole="Department" ToRole="Menu" />
         </EntityType>
         <EntityType Name="Discount">
@@ -811,6 +926,31 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <Property Name="notes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Booking" Relationship="Self.FK_Payments_Bookings" FromRole="Payments" ToRole="Bookings" />
         </EntityType>
+        <EntityType Name="RefundEntry">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rf_id" Type="Int64" />
+          <Property Name="Particular" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Refund" Relationship="Self.FK_RefundEntry_Refunds" FromRole="RefundEntry" ToRole="Refunds" />
+        </EntityType>
+        <EntityType Name="Refund">
+          <Key>
+            <PropertyRef Name="Rf_id" />
+          </Key>
+          <Property Name="Rf_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rfDate" Type="DateTime" Precision="3" />
+          <Property Name="trn_Id" Type="Int32" />
+          <Property Name="rf_Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="rf_Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="rfDeduction" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="rfNetAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="rf_Stat" Type="Int32" />
+          <NavigationProperty Name="Booking" Relationship="Self.FK_Refunds_Bookings" FromRole="Refunds" ToRole="Bookings" />
+          <NavigationProperty Name="RefundEntries" Relationship="Self.FK_RefundEntry_Refunds" FromRole="Refunds" ToRole="RefundEntry" />
+        </EntityType>
         <EntityType Name="Reservation">
           <Key>
             <PropertyRef Name="resId" />
@@ -823,6 +963,13 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <Property Name="reserveStat" Type="Boolean" Nullable="false" />
           <Property Name="eventVenue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Reservations_Customer" FromRole="Reservations" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="ServiceType">
           <Key>
@@ -842,7 +989,9 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <Property Name="Amt_added" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_AddonDetails_AddonCategory">
-          <End Role="AddonCategory" Type="Self.AddonCategory" Multiplicity="0..1" />
+          <End Role="AddonCategory" Type="Self.AddonCategory" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="AddonDetails" Type="Self.AddonDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AddonCategory">
@@ -850,6 +999,20 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
             </Principal>
             <Dependent Role="AddonDetails">
               <PropertyRef Name="addoncatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddonDetails_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AddonDetails" Type="Self.AddonDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptId" />
+            </Principal>
+            <Dependent Role="AddonDetails">
+              <PropertyRef Name="deptId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -993,6 +1156,18 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Refunds_Bookings">
+          <End Role="Bookings" Type="Self.Booking" Multiplicity="0..1" />
+          <End Role="Refunds" Type="Self.Refund" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="trn_Id" />
+            </Principal>
+            <Dependent Role="Refunds">
+              <PropertyRef Name="trn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Menu_CourseCategory">
           <End Role="CourseCategory" Type="Self.CourseCategory" Multiplicity="0..1" />
           <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
@@ -1057,6 +1232,20 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RefundEntry_Refunds">
+          <End Role="Refunds" Type="Self.Refund" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RefundEntry" Type="Self.RefundEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Refunds">
+              <PropertyRef Name="Rf_id" />
+            </Principal>
+            <Dependent Role="RefundEntry">
+              <PropertyRef Name="Rf_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PegasusEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AddonCategories" EntityType="Self.AddonCategory" />
           <EntitySet Name="AddonDetails" EntityType="Self.AddonDetail" />
@@ -1067,6 +1256,7 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <EntitySet Name="Book_Menus" EntityType="Self.Book_Menus" />
           <EntitySet Name="BookingAddons" EntityType="Self.BookingAddon" />
           <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="CancelledBookings" EntityType="Self.CancelledBooking" />
           <EntitySet Name="CateringDiscounts" EntityType="Self.CateringDiscount" />
           <EntitySet Name="CourseCategories" EntityType="Self.CourseCategory" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
@@ -1078,11 +1268,18 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <EntitySet Name="Packages" EntityType="Self.Package" />
           <EntitySet Name="Packages_No_Pax_applicable" EntityType="Self.Packages_No_Pax_applicable" />
           <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="RefundEntries" EntityType="Self.RefundEntry" />
+          <EntitySet Name="Refunds" EntityType="Self.Refund" />
           <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="ServiceTypes" EntityType="Self.ServiceType" />
           <EntitySet Name="PackagesRangeBelowMins" EntityType="Self.PackagesRangeBelowMin" />
           <AssociationSet Name="FK_AddonDetails_AddonCategory" Association="Self.FK_AddonDetails_AddonCategory">
             <End Role="AddonCategory" EntitySet="AddonCategories" />
+            <End Role="AddonDetails" EntitySet="AddonDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddonDetails_Department" Association="Self.FK_AddonDetails_Department">
+            <End Role="Department" EntitySet="Departments" />
             <End Role="AddonDetails" EntitySet="AddonDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_PackageAreaCoverage_Areas" Association="Self.FK_PackageAreaCoverage_Areas">
@@ -1129,6 +1326,10 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
             <End Role="Bookings" EntitySet="Bookings" />
             <End Role="Payments" EntitySet="Payments" />
           </AssociationSet>
+          <AssociationSet Name="FK_Refunds_Bookings" Association="Self.FK_Refunds_Bookings">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="Refunds" EntitySet="Refunds" />
+          </AssociationSet>
           <AssociationSet Name="FK_Menu_CourseCategory" Association="Self.FK_Menu_CourseCategory">
             <End Role="CourseCategory" EntitySet="CourseCategories" />
             <End Role="Menu" EntitySet="Menus" />
@@ -1148,6 +1349,10 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <AssociationSet Name="FK_PackageBody_Packages" Association="Self.FK_PackageBody_Packages">
             <End Role="Packages" EntitySet="Packages" />
             <End Role="PackageBody" EntitySet="PackageBodies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RefundEntry_Refunds" Association="Self.FK_RefundEntry_Refunds">
+            <End Role="Refunds" EntitySet="Refunds" />
+            <End Role="RefundEntry" EntitySet="RefundEntries" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -1169,6 +1374,7 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
               <MappingFragment StoreEntitySet="AddonDetails">
                 <ScalarProperty Name="addonId" ColumnName="addonId" />
                 <ScalarProperty Name="addoncatId" ColumnName="addoncatId" />
+                <ScalarProperty Name="deptId" ColumnName="deptId" />
                 <ScalarProperty Name="addondescription" ColumnName="addondescription" />
                 <ScalarProperty Name="unit" ColumnName="unit" />
                 <ScalarProperty Name="amount" ColumnName="amount" />
@@ -1242,25 +1448,37 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="PegasusTacModel.Booking">
               <MappingFragment StoreEntitySet="Bookings">
-                <ScalarProperty Name="extendedAreaId" ColumnName="extendedAreaId" />
                 <ScalarProperty Name="trn_Id" ColumnName="trn_Id" />
                 <ScalarProperty Name="transdate" ColumnName="transdate" />
+                <ScalarProperty Name="booktype" ColumnName="booktype" />
                 <ScalarProperty Name="c_Id" ColumnName="c_Id" />
                 <ScalarProperty Name="noofperson" ColumnName="noofperson" />
                 <ScalarProperty Name="occasion" ColumnName="occasion" />
                 <ScalarProperty Name="venue" ColumnName="venue" />
-                <ScalarProperty Name="apply_extendedAmount" ColumnName="apply_extendedAmount" />
                 <ScalarProperty Name="typeofservice" ColumnName="typeofservice" />
                 <ScalarProperty Name="startdate" ColumnName="startdate" />
                 <ScalarProperty Name="enddate" ColumnName="enddate" />
                 <ScalarProperty Name="eventcolor" ColumnName="eventcolor" />
                 <ScalarProperty Name="p_id" ColumnName="p_id" />
                 <ScalarProperty Name="reference" ColumnName="reference" />
+                <ScalarProperty Name="extendedAreaId" ColumnName="extendedAreaId" />
+                <ScalarProperty Name="apply_extendedAmount" ColumnName="apply_extendedAmount" />
                 <ScalarProperty Name="p_amount" ColumnName="p_amount" />
                 <ScalarProperty Name="serve_stat" ColumnName="serve_stat" />
                 <ScalarProperty Name="is_cancelled" ColumnName="is_cancelled" />
                 <ScalarProperty Name="b_createdbyUser" ColumnName="b_createdbyUser" />
                 <ScalarProperty Name="b_updatedDate" ColumnName="b_updatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CancelledBookings">
+            <EntityTypeMapping TypeName="PegasusTacModel.CancelledBooking">
+              <MappingFragment StoreEntitySet="CancelledBookings">
+                <ScalarProperty Name="cNo" ColumnName="cNo" />
+                <ScalarProperty Name="cancelledDated" ColumnName="cancelledDated" />
+                <ScalarProperty Name="trn_Id" ColumnName="trn_Id" />
+                <ScalarProperty Name="reasoncancelled" ColumnName="reasoncancelled" />
+                <ScalarProperty Name="isrefundable" ColumnName="isrefundable" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1388,6 +1606,30 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RefundEntries">
+            <EntityTypeMapping TypeName="PegasusTacModel.RefundEntry">
+              <MappingFragment StoreEntitySet="RefundEntry">
+                <ScalarProperty Name="No" ColumnName="No" />
+                <ScalarProperty Name="Rf_id" ColumnName="Rf_id" />
+                <ScalarProperty Name="Particular" ColumnName="Particular" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Refunds">
+            <EntityTypeMapping TypeName="PegasusTacModel.Refund">
+              <MappingFragment StoreEntitySet="Refunds">
+                <ScalarProperty Name="Rf_id" ColumnName="Rf_id" />
+                <ScalarProperty Name="rfDate" ColumnName="rfDate" />
+                <ScalarProperty Name="trn_Id" ColumnName="trn_Id" />
+                <ScalarProperty Name="rf_Reason" ColumnName="rf_Reason" />
+                <ScalarProperty Name="rf_Amount" ColumnName="rf_Amount" />
+                <ScalarProperty Name="rfDeduction" ColumnName="rfDeduction" />
+                <ScalarProperty Name="rfNetAmount" ColumnName="rfNetAmount" />
+                <ScalarProperty Name="rf_Stat" ColumnName="rf_Stat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Reservations">
             <EntityTypeMapping TypeName="PegasusTacModel.Reservation">
               <MappingFragment StoreEntitySet="Reservations">
@@ -1398,6 +1640,14 @@ warning 6002: The table/view 'PegasusTac.dbo.PackagesRangeBelowMin' does not hav
                 <ScalarProperty Name="occasion" ColumnName="occasion" />
                 <ScalarProperty Name="reserveStat" ColumnName="reserveStat" />
                 <ScalarProperty Name="eventVenue" ColumnName="eventVenue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="PegasusTacModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

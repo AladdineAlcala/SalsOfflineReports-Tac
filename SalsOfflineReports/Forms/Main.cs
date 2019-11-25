@@ -78,5 +78,12 @@ namespace SalsOfflineReports.Forms
             searchPayment.StartPosition =FormStartPosition.CenterScreen;
             searchPayment.ShowDialog();
         }
+
+        private void refundVouchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           FrmRefundEntry frmRefundEntry=new FrmRefundEntry();
+            frmRefundEntry.StartPosition=FormStartPosition.CenterScreen;
+            frmRefundEntry.ShowDialog();
+        }
     }
 }

@@ -34,6 +34,7 @@
             this.menusDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paymentVouchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.refundVouchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -44,7 +45,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contractFormToolStripMenuItem,
             this.menusDistributionToolStripMenuItem,
-            this.paymentVouchToolStripMenuItem});
+            this.paymentVouchToolStripMenuItem,
+            this.refundVouchToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
@@ -86,6 +88,13 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // refundVouchToolStripMenuItem
+            // 
+            this.refundVouchToolStripMenuItem.Name = "refundVouchToolStripMenuItem";
+            this.refundVouchToolStripMenuItem.Size = new System.Drawing.Size(112, 24);
+            this.refundVouchToolStripMenuItem.Text = "Refund Vouch";
+            this.refundVouchToolStripMenuItem.Click += new System.EventHandler(this.refundVouchToolStripMenuItem_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -95,7 +104,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -115,5 +124,6 @@
         private System.Windows.Forms.ToolStripMenuItem contractFormToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menusDistributionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem paymentVouchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refundVouchToolStripMenuItem;
     }
 }

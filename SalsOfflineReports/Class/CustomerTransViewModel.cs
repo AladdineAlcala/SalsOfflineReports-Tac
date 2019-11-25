@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SalsOfflineReports.Class
 {
-    class PrintContractDetails
+    public class CustomerTransViewModel
     {
         public int transId { get; set; }
         public string customerfullname { get; set; }
@@ -22,13 +22,12 @@ namespace SalsOfflineReports.Class
         public string packagedesc { get; set; }
         public decimal packageamount { get; set; }
         public decimal cateringdiscount { get; set; }
-        public decimal dpA { get; set; }
-        public decimal fpA { get; set; }
 
-        private PegasusEntities dbEntities=new PegasusEntities();
-        private readonly ClsServices service=new ClsServices();
+        private PegasusEntities dbEntities = new PegasusEntities();
+        private readonly ClsServices service = new ClsServices();
 
-        public IEnumerable<PrintContractDetails> GetContractDetails()
+
+        public IEnumerable<CustomerTransViewModel> GetCustomerTrans()
         {
             //  dbEntities.Configuration.ProxyCreationEnabled = false;
 
@@ -36,13 +35,13 @@ namespace SalsOfflineReports.Class
 
 
             IEnumerable<Booking> bookings = (from c in dbEntities.Bookings select c).ToList();
-            List<PrintContractDetails> prn_Contract = new List<PrintContractDetails>();
+            List<CustomerTransViewModel> prn_Contract = new List<CustomerTransViewModel>();
 
             try
             {
                 prn_Contract = (from booking in bookings
                     join sv in dbEntities.ServiceTypes on booking.typeofservice equals sv.serviceId
-                    select new PrintContractDetails()
+                    select new CustomerTransViewModel()
                     {
                         transId = booking.trn_Id,
                         customerfullname = Utilities.getfullname(booking.Customer.lastname, booking.Customer.firstname, booking.Customer.middle),
@@ -73,7 +72,5 @@ namespace SalsOfflineReports.Class
 
             return prn_Contract.ToList();
         }
-
-
     }
 }

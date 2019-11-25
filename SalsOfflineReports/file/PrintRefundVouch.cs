@@ -16,14 +16,14 @@ namespace SalsOfflineReports.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class PrintPaymentVouch : ReportClass {
+    public class PrintRefundVouch : ReportClass {
         
-        public PrintPaymentVouch() {
+        public PrintRefundVouch() {
         }
         
         public override string ResourceName {
             get {
-                return "PrintPaymentVouch.rpt";
+                return "PrintRefundVouch.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace SalsOfflineReports.Reports {
         
         public override string FullResourceName {
             get {
-                return "SalsOfflineReports.Reports.PrintPaymentVouch.rpt";
+                return "SalsOfflineReports.Reports.PrintRefundVouch.rpt";
             }
             set {
                 // Do nothing
@@ -87,76 +87,12 @@ namespace SalsOfflineReports.Reports {
                 return this.ReportDefinition.Sections[4];
             }
         }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_pmtNo {
-            get {
-                return this.DataDefinition.ParameterFields[0];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_totalPackageAmt {
-            get {
-                return this.DataDefinition.ParameterFields[1];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_Discounted {
-            get {
-                return this.DataDefinition.ParameterFields[2];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_paymdate {
-            get {
-                return this.DataDefinition.ParameterFields[3];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_PrevPayment {
-            get {
-                return this.DataDefinition.ParameterFields[4];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_addons {
-            get {
-                return this.DataDefinition.ParameterFields[5];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_extlocation {
-            get {
-                return this.DataDefinition.ParameterFields[6];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_catdesc {
-            get {
-                return this.DataDefinition.ParameterFields[7];
-            }
-        }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedPrintPaymentVouch : Component, ICachedReport {
+    public class CachedPrintRefundVouch : Component, ICachedReport {
         
-        public CachedPrintPaymentVouch() {
+        public CachedPrintRefundVouch() {
         }
         
         [Browsable(false)]
@@ -193,7 +129,7 @@ namespace SalsOfflineReports.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            PrintPaymentVouch rpt = new PrintPaymentVouch();
+            PrintRefundVouch rpt = new PrintRefundVouch();
             rpt.Site = this.Site;
             return rpt;
         }

@@ -89,5 +89,7 @@ namespace SalsOfflineReports.Class
                 }).Where(t => t.transId == transId);
 
         }
+
+       
     }
 }
