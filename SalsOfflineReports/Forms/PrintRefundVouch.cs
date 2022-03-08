@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using SalsOfflineReports.Data;
 using SalsOfflineReports.Reports;
 
 namespace SalsOfflineReports.Forms

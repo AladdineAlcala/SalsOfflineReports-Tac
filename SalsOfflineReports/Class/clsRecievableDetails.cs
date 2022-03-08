@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SalsOfflineReports.Data;
 
 namespace SalsOfflineReports.Class
 {
@@ -14,12 +15,9 @@ namespace SalsOfflineReports.Class
         {
             decimal totalpayables = 0;
             decimal packageDue = 0;
-            //decimal addonAmount = 0;
-            decimal locationextAmount = 0;
             decimal packageAmount = 0;
             //decimal belowminPax = 0;
             decimal discounted = 0;
-            decimal cateringdiscount = 0;
 
             var bookings = (from b in dbEntities.Bookings select b).FirstOrDefault(x => x.trn_Id == transId);
 

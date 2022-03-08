@@ -105,9 +105,9 @@ namespace SalsOfflineReports.Forms
 
                 var btype = clsservices.Getbookingtype(transId);
 
-                conDetails = (from c in condetails.GetContractDetails() select c).ToList();
+                //conDetails = (from c in condetails.GetContractDetails() select c).ToList();
 
-                conDetails = conDetails.Where(x => x.transId == Convert.ToInt32(transId)).ToList();
+                conDetails = condetails.GetContractDetailsById(transId).ToList();
                 //where c.transId == Convert.ToInt32(paramTransId)
                 //select c).ToList();
 

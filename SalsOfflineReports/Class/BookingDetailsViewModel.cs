@@ -6,6 +6,7 @@ using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SalsOfflineReports.Data;
 
 namespace SalsOfflineReports.Class
 {

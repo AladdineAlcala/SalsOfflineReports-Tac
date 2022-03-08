@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>47</ApplicationRevision>
+    <ApplicationRevision>48</ApplicationRevision>
     <ApplicationVersion>1.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -59,16 +59,16 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>sals.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
-    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -100,39 +100,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddonCategory.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AddonDetail.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Area.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AuditLog.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AuditLogDetail.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Booking.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BookingAddon.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Book_Discount.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Book_Menus.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CancelledBooking.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CateringDiscount.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Class\AddonsViewModel.cs" />
     <Compile Include="Class\BookingDetailsViewModel.cs" />
     <Compile Include="Class\BookingsViewModel.cs" />
@@ -152,22 +119,106 @@
     <Compile Include="Class\PrintRefundViewModel.cs" />
     <Compile Include="Class\RefundsViewModel.cs" />
     <Compile Include="Class\Utilities.cs" />
-    <Compile Include="CourseCategory.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Customer.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Datasets\DatasetRefunds.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DatasetRefunds.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Department.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
+    <Compile Include="Data\AddonCategory.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Discount.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
+    <Compile Include="Data\AddonDetail.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Area.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AuditLog.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AuditLogDetail.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Booking.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BookingAddon.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Book_Discount.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Book_Menus.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CancelledBooking.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CateringDiscount.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CourseCategory.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Customer.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Department.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Discount.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Menu.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Package.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PackageAreaCoverage.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PackageBody.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PackagesRangeBelowMin.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Packages_No_Pax_applicable.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Payment.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PegasusEntitiesDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PegasusEntitiesDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PegasusEntitiesDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PegasusEntitiesDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PegasusEntitiesDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Refund.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\RefundEntry.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Reservation.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Role.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ServiceType.cs">
+      <DependentUpon>PegasusEntitiesDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmContractforFunction.cs">
       <SubType>Form</SubType>
@@ -229,50 +280,8 @@
     <Compile Include="Forms\PrintRefundVouch.Designer.cs">
       <DependentUpon>PrintRefundVouch.cs</DependentUpon>
     </Compile>
-    <Compile Include="Menu.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Package.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PackageAreaCoverage.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PackageBody.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PackagesRangeBelowMin.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Packages_No_Pax_applicable.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Payment.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PegasusEntities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PegasusEntities.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PegasusEntities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PegasusEntities.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PegasusEntities.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Refund.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RefundEntry.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Reports\PrintPaymentVouch.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -284,12 +293,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Print_RefundVouch.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\RefundVoucher.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RefundVoucher.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\ReportContractforFunction.cs">
@@ -306,24 +309,15 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Reservation.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Role.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ServiceType.cs">
-      <DependentUpon>PegasusEntities.tt</DependentUpon>
-    </Compile>
-    <Content Include="PegasusEntities.Context.tt">
+    <Content Include="Data\PegasusEntitiesDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PegasusEntities.edmx</DependentUpon>
-      <LastGenOutput>PegasusEntities.Context.cs</LastGenOutput>
+      <DependentUpon>PegasusEntitiesDataModel.edmx</DependentUpon>
+      <LastGenOutput>PegasusEntitiesDataModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="PegasusEntities.tt">
+    <Content Include="Data\PegasusEntitiesDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PegasusEntities.edmx</DependentUpon>
-      <LastGenOutput>PegasusEntities.cs</LastGenOutput>
+      <DependentUpon>PegasusEntitiesDataModel.edmx</DependentUpon>
+      <LastGenOutput>PegasusEntitiesDataModel.cs</LastGenOutput>
     </Content>
     <Content Include="Reports\PrintPaymentVouch.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -335,14 +329,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Print_RefundVouch.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\RefundVoucher.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RefundVoucher.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EntityDeploy Include="PegasusEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PegasusEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="Datasets\DatasetRefunds.xsc">
       <DependentUpon>DatasetRefunds.xsd</DependentUpon>
     </None>
@@ -354,8 +340,12 @@
     <None Include="Datasets\DatasetRefunds.xss">
       <DependentUpon>DatasetRefunds.xsd</DependentUpon>
     </None>
-    <None Include="PegasusEntities.edmx.diagram">
-      <DependentUpon>PegasusEntities.edmx</DependentUpon>
+    <EntityDeploy Include="Data\PegasusEntitiesDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PegasusEntitiesDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Data\PegasusEntitiesDataModel.edmx.diagram">
+      <DependentUpon>PegasusEntitiesDataModel.edmx</DependentUpon>
     </None>
     <None Include="Resources\salslogo_JPEG.jpg" />
     <None Include="Resources\sals logo_JPEG.jpg" />
@@ -459,6 +449,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

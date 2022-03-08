@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SalsOfflineReports.Data;
 
 namespace SalsOfflineReports.Class
 {
     class PaymentsDetails
     {
-        public int  payNo { get; set; }
+        public string  payNo { get; set; }
         public int transId { get; set; }
         public DateTime dateofpayment { get; set; }
         public string particular { get; set; }

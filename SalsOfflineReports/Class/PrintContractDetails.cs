@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SalsOfflineReports.Data;
 
 namespace SalsOfflineReports.Class
 {
@@ -74,6 +75,52 @@ namespace SalsOfflineReports.Class
             return prn_Contract.ToList();
         }
 
+
+        public IEnumerable<PrintContractDetails> GetContractDetailsById(int transid)
+        {
+            //  dbEntities.Configuration.ProxyCreationEnabled = false;
+
+
+
+
+            IEnumerable<Booking> bookings = (from c in dbEntities.Bookings select c).OrderBy(t=>t.trn_Id).ToList();
+            List<PrintContractDetails> prn_Contract = new List<PrintContractDetails>();
+
+            try
+            {
+                prn_Contract = (from booking in bookings
+                    join sv in dbEntities.ServiceTypes on booking.typeofservice equals sv.serviceId where booking.trn_Id== transid
+                    select new PrintContractDetails()
+                    {
+                        transId = booking.trn_Id,
+                        customerfullname = Utilities.getfullname(booking.Customer.lastname, booking.Customer.firstname, booking.Customer.middle),
+                        customeraddress = booking.Customer.address,
+                        contactno = booking.Customer.contact1,
+                        booktypecode = booking.booktype,
+                        datetimesched = Convert.ToDateTime(booking.startdate),
+                        event_name = booking.occasion,
+                        noofPax = Convert.ToInt32(booking.noofperson),
+                        event_venue = booking.venue,
+                        eventcolScheme = booking.eventcolor,
+                        typeofService = sv.servicetypedetails,
+                        packagedesc = booking.Package.p_descripton,
+                        packageamount = Convert.ToDecimal(booking.Package.p_amountPax),
+                        cateringdiscount = service.GetCateringDiscount(booking.trn_Id)
+
+                    }).ToList();
+
+
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return prn_Contract.ToList();
+        }
 
     }
 }

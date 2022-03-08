@@ -15,7 +15,6 @@ namespace SalsOfflineReports
         [STAThread]
         static void Main()
         {
-            //MessageBox.Show("asdaas");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

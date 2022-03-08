@@ -9,7 +9,7 @@ namespace SalsOfflineReports.Class
     class ClassVariables
     {
         public static int TransactionCode;
-        public static int Paymentcode;
+        public static string Paymentcode;
         public static int RefundEntryNo;
     }
 }

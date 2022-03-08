@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SalsOfflineReports.Data;
 
 namespace SalsOfflineReports.Forms
 {
@@ -40,15 +41,15 @@ namespace SalsOfflineReports.Forms
             else
             {
 
-                int paymtNo = Convert.ToInt32(txt_payNo.Text.Trim());
+              
 
 
                 var isrecordexist = dbEntities.Payments
-                    .FirstOrDefault(x => x.payNo == paymtNo);
+                    .FirstOrDefault(x => x.payNo == txt_payNo.Text.Trim());
 
                 if (isrecordexist != null)
                 {
-                    ClassVariables.Paymentcode = Convert.ToInt32(txt_payNo.Text);
+                    ClassVariables.Paymentcode = txt_payNo.Text.Trim();
                     ClassVariables.TransactionCode = Convert.ToInt32(isrecordexist.trn_Id);
 
                     this.Close();

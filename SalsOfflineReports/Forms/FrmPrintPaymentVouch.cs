@@ -68,11 +68,11 @@ namespace SalsOfflineReports.Forms
                 }
                 int noofPax = 0;
 
-                var conDetailsList = (from c in condetails.GetContractDetails() select c).ToList();
+                //var conDetailsList = (from c in condetails.GetContractDetails() select c).ToList();
 
-                conDetails = conDetailsList.Where(x => x.transId == transId).ToList();
+                conDetails = condetails.GetContractDetailsById(transId).ToList();
 
-                payablelist = (from pmt in cpayables.getPayment().ToList() select pmt).ToList();
+                payablelist = (from pmt in cpayables.getPayment().ToList() select pmt).OrderBy(t=>t.dateofpayment).ToList();
 
                 var payable = payablelist.Where(p => p.payNo == paymNo).ToList();
 
